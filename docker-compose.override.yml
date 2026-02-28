@@ -1,14 +1,22 @@
 services:
-  catalog.api:
+  catalogdb:
+    container_name: catalogdb
+    restart: always
+    ports:
+    - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    image: mongo:latest
+
+  catalog:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
+      - DatabaseSettings__ConnectionString=mongodb://catalogdb:27017
+      - DatabaseSettings__DatabaseName=CatalogDb
+      - DatabaseSettings__ProductCollectionName=Products
+      - DatabaseSettings__TypeCollectionName=Types
+      - DatabaseSettings__BrandCollectionName=Brands 
+    depends_on:
+      - catalogdb
     ports:
-      - "8080"
-      - "8081"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - "8000:8080"
