@@ -29,10 +29,10 @@ namespace Catalog.API.Controllers
                 return NotFound();
             return Ok(result);
         }
-        [HttpGet("GetProductByName/{name}")]
-        public async Task<ActionResult<IList<ProductDto>>> GetProductByName(string name)
+        [HttpGet("GetProductsByName/{name}")]
+        public async Task<ActionResult<IList<ProductDto>>> GetProductsByName(string name)
         {
-            var query = new GetProductByNameQuery(name);
+            var query = new GetProductsByNameQuery(name);
             var result = await _mediator.Send(query);
             if (result == null || result.Count == 0) return NotFound();
             var dtoList = result.Select(p => p.ToDto()).ToList();
@@ -77,7 +77,7 @@ namespace Catalog.API.Controllers
         [HttpGet("/brand/{brand}",Name = "GetProductByBrand")]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductByBrand(string brand)
         {
-            var query = new GetProductByBrandQuery(brand);
+            var query = new GetProductsByBrandQuery(brand);
             var result = await _mediator.Send(query);
             return Ok(result);
         }

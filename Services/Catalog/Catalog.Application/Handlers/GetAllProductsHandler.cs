@@ -13,7 +13,7 @@ namespace Catalog.Application.Handlers
 
         public async Task<Pagination<ProductResponse>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
-            var products = await _productRepository.GetProducts(request.catalogSpecParams);
+            var products = await _productRepository.GetProducts(request.CatalogSpecParams);
             return products.ToResponse();
         }
     }
