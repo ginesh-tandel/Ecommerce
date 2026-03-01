@@ -22,17 +22,16 @@ builder.Services.AddControllers();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Register MediatR and scan for handlers in the specified assemblies
 var assemblies = new Assembly[] {
     Assembly.GetExecutingAssembly(),
     typeof(GetAllBrandsHandler).Assembly
 };
-
-// Register MediatR and scan for handlers in the specified assemblies
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(assemblies));
 
 // Register repositories
@@ -62,7 +61,7 @@ if (app.Environment.IsDevelopment())
 }
 // Enable middleware to serve generated Swagger as a JSON endpoint and the Swagger UI
 app.UseSwagger();
-app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog API V1"));
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 

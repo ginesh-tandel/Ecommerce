@@ -10,18 +10,19 @@ namespace Catalog.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class CatalogController(IMediator _mediator) : ControllerBase
+    public class CatalogController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator _mediator = _mediator;
+        private readonly IMediator _mediator = mediator;
+
         [HttpGet("GetAllProducts")]
-        public async Task<ActionResult<IList<ProductDto>>> GetAllProducts([FromQuery] CatalogSpecParams catalogSpecParams)
+        public async Task<IActionResult> GetAllProducts([FromQuery] CatalogSpecParams catalogSpecParams)
         {
             var query = new GetAllProductsQuery(catalogSpecParams);
             var result = await _mediator.Send(query);
             return Ok(result);
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductDto>> GetProductById(string id)
+        public async Task<IActionResult> GetProductById(string id)
         {
             var query = new GetProductByIdQuery(id);
             var result = await _mediator.Send(query);
@@ -30,7 +31,7 @@ namespace Catalog.API.Controllers
             return Ok(result);
         }
         [HttpGet("GetProductsByName/{name}")]
-        public async Task<ActionResult<IList<ProductDto>>> GetProductsByName(string name)
+        public async Task<IActionResult> GetProductsByName(string name)
         {
             var query = new GetProductsByNameQuery(name);
             var result = await _mediator.Send(query);
@@ -61,34 +62,25 @@ namespace Catalog.API.Controllers
             return NoContent();
         }
         [HttpGet("GetAllBrands")]
-        public async Task<ActionResult<IEnumerable<BrandDto>>> GetAllBrands()
+        public async Task<IActionResult> GetAllBrands()
         {
             var query = new GetAllBrandsQuery();
             var result = await _mediator.Send(query);
             return Ok(result);
         }
         [HttpGet("GetAllTypes")]
-        public async Task<ActionResult<IEnumerable<TypeDto>>> GetAllTypes()
+        public async Task<IActionResult> GetAllTypes()
         {
             var query = new GetAllTypesQuery();
             var result = await _mediator.Send(query);
             return Ok(result);
         }
-        [HttpGet("/brand/{brand}",Name = "GetProductByBrand")]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductByBrand(string brand)
+        [HttpGet("GetProductByBrand/{brand}")]
+        public async Task<IActionResult> GetProductByBrand(string brand)
         {
             var query = new GetProductsByBrandQuery(brand);
             var result = await _mediator.Send(query);
             return Ok(result);
         }
-
-        //[HttpGet("/type/{type}", Name = "GetProductByType")]
-        //public async Task<IActionResult> GetProductByType(string type)
-        //{
-        //    var query = new GetProductBy(type);
-        //    var result = await _mediator.Send(query);
-        //    return Ok(result);
-        //}
-
     }
 }
