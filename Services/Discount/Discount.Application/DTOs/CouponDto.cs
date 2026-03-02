@@ -4,6 +4,6 @@
         int Id,
         string ProductName,
         string Description,
-        decimal Amount
+        int Amount
     ); 
 }
