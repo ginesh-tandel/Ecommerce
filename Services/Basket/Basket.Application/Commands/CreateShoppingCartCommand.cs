@@ -4,5 +4,5 @@ using MediatR;
 
 namespace Basket.Application.Commands
 {
-    public record CreateShoppingCartCommand(string UserName, List<ShoppingCartItemDto> Items) : IRequest<ShoppingCartResponse>;
+    public record CreateShoppingCartCommand(string UserName, List<CreateShoppingCartItemDto> Items) : IRequest<ShoppingCartResponse>;
 }

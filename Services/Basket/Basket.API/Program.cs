@@ -1,7 +1,11 @@
+using Basket.Application.GrpcService;
 using Basket.Application.Handlers;
+using Basket.Application.Settings;
 using Basket.Core.Repositories;
 using Basket.Infrastructure.Repositories;
 using Basket.Infrastructure.Settings;
+using Discount.Grpc.Protos;
+using Microsoft.Extensions.Options;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +34,24 @@ builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 // Configure Cache settings
 builder.Services.Configure<CacheSettings>(builder.Configuration.GetSection("CacheSettings"));
 
+// Configure gRPC settings
+builder.Services.Configure<GrpcSettings>(builder.Configuration.GetSection("GrpcSettings"));
+
+// Register gRPC client for Discount service
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>((sp, config) =>
+{
+    var grpcSettings = sp.GetRequiredService<IOptions<GrpcSettings>>().Value;
+    config.Address = new Uri(grpcSettings.DiscountUrl);
+});
+
+// Register the DiscountGrpcService to be used in handlers
+builder.Services.AddScoped<DiscountGrpcService>();
+
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>((sp, config) =>
+{
+    var grpcSettings = sp.GetRequiredService<IOptions<GrpcSettings>>().Value;
+    config.Address = new Uri(grpcSettings.DiscountUrl);
+});
 // Configure Redis cache
 builder.Services.AddStackExchangeRedisCache((options) =>
 {

@@ -3,27 +3,27 @@ services:
     container_name: catalogdb
     restart: always
     ports:
-    - "27017:27017"
+      - "27017:27017"
     volumes:
       - mongo_data:/data/db
   basketdb:
     container_name: basketdb
     restart: always
     ports:
-    - "6379:6379"
+      - "6379:6379"  
   discountdb:
     container_name: discountdb
     environment:
-      - PoSTGRES_USER=admin
+      - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=Admin@123
-      - POSTGRES_DB=discountdb 
+      - POSTGRES_DB=DiscountDb
     restart: always
     ports:
-    - "5432:5432"
+      - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d discountdb"]
+      test: ["CMD-SHELL", "pg_isready -U admin"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -31,28 +31,31 @@ services:
   catalog:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - DatabaseSettings__ConnectionString=mongodb://catalogdb:27017
-      - DatabaseSettings__DatabaseName=CatalogDb
-      - DatabaseSettings__ProductCollectionName=Products
-      - DatabaseSettings__TypeCollectionName=Types
-      - DatabaseSettings__BrandCollectionName=Brands 
+      - "DatabaseSettings__ConnectionString=mongodb://catalogdb:27017"
+      - "DatabaseSettings__DatabaseName=CatalogDb"
+      - "DatabaseSettings__ProductCollectionName=Products"
+      - "DatabaseSettings__BrandCollectionName=Brands"
+      - "DatabaseSettings__TypeCollectionName=Types"
     depends_on:
-      - catalogdb
+      - catalogdb          
     ports:
-      - "8000:8080"
+      - "8000:8080"  
   basket:
-      environment:
-        - ASPNETCORE_ENVIRONMENT=Development
-        - CacheSettings__ConnectionString=basketdb:6379
-      depends_on:
-        - basketdb
-      ports:
-        - "8001:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "CacheSettings__ConnectionString=basketdb:6379" 
+      - "GrpcSettings__DiscountUrl=http://discount:8080"
+    
+    depends_on:
+      - basketdb
+    ports:
+      - "8001:8080"
+
   discount:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - DatabaseSettings__ConnectionString=Host=discountdb;Port=5432;Database=discountdb;Username=admin;Password=Admin@123
+      - "DatabaseSettings__ConnectionString=Server=discountdb;Port=5432;Database=DiscountDb;User Id=admin;Password=Admin@123;"  
     depends_on:
-      - discountdb
+       - discountdb          
     ports:
-    - "8002:8080"
+      - "8002:8080"
