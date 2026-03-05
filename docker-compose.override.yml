@@ -28,6 +28,22 @@ services:
       timeout: 5s
       retries: 5
 
+  orderdb:
+    container_name: orderdb
+    environment:
+      SA_PASSWORD: "Sa@123"
+      ACCEPT_EULA: "Y"
+    restart: always
+    ports:
+      - "1433:1433"
+    volumes:
+      - orderdb_data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Sa@123' -Q 'select 1'"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
   catalog:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -59,3 +75,12 @@ services:
        - discountdb          
     ports:
       - "8002:8080"
+
+  ordering:
+      environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings__OrderingConnectionString=Server=orderdb;Database=OrderDb;User Id=sa;Password=Sa@123;TrustServerCertificate=True;Encrypt=True;"     
+      depends_on:
+      - orderdb
+      ports:
+      - "8003:8080" 

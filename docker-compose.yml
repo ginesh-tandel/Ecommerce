@@ -5,6 +5,8 @@ services:
     image: redis:alpine
   discountdb:
    image: postgres
+  orderdb:
+   image: mcr.microsoft.com/mssql/server:2022-latest
 
   catalog:
     image: ${DOCKER_REGISTRY-}catalog
@@ -22,6 +24,13 @@ services:
       context: .
       dockerfile: Services/Discount/Discount.API/Dockerfile
 
+  ordering:
+    image: ${DOCKER_REGISTRY-}ordering
+    build:
+      context: .
+      dockerfile: Services/Ordering/Ordering.API/Dockerfile
+
 volumes:
   mongo_data:
   postgres_data:
+  orderdb_data:
