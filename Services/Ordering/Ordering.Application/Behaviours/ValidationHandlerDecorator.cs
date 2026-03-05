@@ -3,7 +3,7 @@ using Ordering.Application.Abstactions;
 
 namespace Ordering.Application.Behaviours
 {
-    public class ValidationHandler<TCommand, TResult>(
+    public class ValidationHandlerDecorator<TCommand, TResult>(
         ICommandHandler<TCommand, TResult> handler, IEnumerable<IValidator<TCommand>> validators) : ICommandHandler<TCommand, TResult> where TCommand : ICommand<TResult>
     {
         private readonly ICommandHandler<TCommand, TResult> _handler = handler;

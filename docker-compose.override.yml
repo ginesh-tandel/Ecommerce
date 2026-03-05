@@ -55,7 +55,7 @@ services:
     depends_on:
       - catalogdb          
     ports:
-      - "8000:8080"  
+      - "8001:8080"  
   basket:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -65,7 +65,7 @@ services:
     depends_on:
       - basketdb
     ports:
-      - "8001:8080"
+      - "8002:8080"
 
   discount:
     environment:
@@ -74,7 +74,7 @@ services:
     depends_on:
        - discountdb          
     ports:
-      - "8002:8080"
+      - "8003:8080"
 
   ordering:
       environment:
@@ -83,4 +83,4 @@ services:
       depends_on:
       - orderdb
       ports:
-      - "8003:8080"
+      - "8004:8080"

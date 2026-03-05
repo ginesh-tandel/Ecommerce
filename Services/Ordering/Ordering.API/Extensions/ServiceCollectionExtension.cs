@@ -35,9 +35,10 @@ namespace Ordering.API.Extensions
 
             services.AddValidatorsFromAssembly(typeof(CreateOrderCommandValidator).Assembly);
 
-            services.Decorate(typeof(ICommandHandler<>), typeof(ValidationHandler<,>));
+            services.Decorate(typeof(ICommandHandler<,>),
+                typeof(ValidationHandlerDecorator<,>));
 
-            services.Decorate(typeof(ICommandHandler<>), typeof(ExceptionHandler<,>));
+            services.Decorate(typeof(ICommandHandler<,>), typeof(ExceptionHandlerDecorator<,>));
 
             return services;
         }

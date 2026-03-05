@@ -3,7 +3,7 @@ using Ordering.Application.Abstactions;
 
 namespace Ordering.Application.Behaviours
 {
-    public class ExceptionHandler<TCommand, TResult>(ICommandHandler<TCommand, TResult> handler, ILogger<TCommand> logger) : ICommandHandler<TCommand, TResult> where TCommand : ICommand<TResult>
+    public class ExceptionHandlerDecorator<TCommand, TResult>(ICommandHandler<TCommand, TResult> handler, ILogger<TCommand> logger) : ICommandHandler<TCommand, TResult> where TCommand : ICommand<TResult>
     {
         private readonly ICommandHandler<TCommand, TResult> _handler = handler;
         private readonly ILogger _logger = logger;
