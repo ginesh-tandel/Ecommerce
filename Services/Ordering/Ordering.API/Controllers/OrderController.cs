@@ -25,7 +25,7 @@ namespace Ordering.API.Controllers
         private readonly ILogger<OrderController> _logger = logger;
 
         [HttpGet("{userName}", Name = "GetOrdersByUserName")]
-        public async Task<ActionResult<List<OrderDto>>> GetOrdersByUserName(string userName, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetOrdersByUserName(string userName, CancellationToken cancellationToken)
         {
             var query = new GetOrderListQuery(userName);
 

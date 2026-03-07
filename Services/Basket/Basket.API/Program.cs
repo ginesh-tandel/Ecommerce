@@ -5,6 +5,7 @@ using Basket.Core.Repositories;
 using Basket.Infrastructure.Repositories;
 using Basket.Infrastructure.Settings;
 using Discount.Grpc.Protos;
+using MassTransit;
 using Microsoft.Extensions.Options;
 using System.Reflection;
 
@@ -56,6 +57,14 @@ builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(
 builder.Services.AddStackExchangeRedisCache((options) =>
 {
     options.Configuration = builder.Configuration.GetSection("CacheSettings").GetValue<string>("ConnectionString");
+});
+
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(builder.Configuration["EventBusSettings:HostAddress"]);
+    });
 });
 var app = builder.Build();
 

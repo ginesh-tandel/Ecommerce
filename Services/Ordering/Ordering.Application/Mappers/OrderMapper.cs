@@ -1,4 +1,5 @@
-﻿using Ordering.Application.DTOs;
+﻿using EventBus.Messages.Events;
+using Ordering.Application.DTOs;
 using Ordering.Application.Orders.CreateOrder;
 using Ordering.Application.Orders.UpdateOrder;
 using Ordering.Core.Entitties;
@@ -87,6 +88,27 @@ namespace Ordering.Application.Mappers
                 Expiration = orderDto.Expiration,
                 Cvv = orderDto.Cvv,
                 PaymentMethod = orderDto.PaymentMethod
+            };
+        }
+        public static CreateOrderCommand ToCheckoutOrderCommand(this BasketCheckoutEvent basketCheckoutEvent)
+        {
+            return new CreateOrderCommand
+            {
+                UserName = basketCheckoutEvent.UserName,
+                TotalPrice = basketCheckoutEvent.TotalPrice,
+                FirstName = basketCheckoutEvent.FirstName,
+                LastName = basketCheckoutEvent.LastName,
+                Email = basketCheckoutEvent.Email,
+                AddressLine = basketCheckoutEvent.AddressLine,
+                Country = basketCheckoutEvent.Country,
+                State = basketCheckoutEvent.State,
+                ZipCode = basketCheckoutEvent.ZipCode,
+                CardName = basketCheckoutEvent.CardName,
+                CardNumber = basketCheckoutEvent.CardNumber,
+                Expiration = basketCheckoutEvent.Expiration,
+                Cvv = basketCheckoutEvent.Cvv,
+                PaymentMethod = basketCheckoutEvent.PaymentMethod,
+                CorrelationId = basketCheckoutEvent.CorrelationId
             };
         }
     }

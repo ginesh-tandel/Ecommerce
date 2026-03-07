@@ -1,4 +1,5 @@
 ﻿using Basket.Application.Commands;
+using Basket.Application.DTOs;
 using Basket.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,12 @@ namespace Basket.API.Controllers
             var command = new DeleteBasketByUserNameCommand(userName);
             await _mediator.Send(command);
             return NoContent();
+        }
+        [HttpPost("Checkout")]
+        public async Task<IActionResult> Checkout([FromBody] BasketCheckoutDto basketCheckoutDto)
+        {
+            await _mediator.Send(new BasketCheckoutCommand(basketCheckoutDto));
+            return Accepted();
         }
     }
 }

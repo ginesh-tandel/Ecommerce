@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Infrastructure/">
+    <Project Path="Infrastructure/EventBus.Messages/EventBus.Messages.csproj" Id="34f809dc-bf65-45f6-8e13-4ebe6ff9897f" />
+  </Folder>
   <Folder Name="/Services/" />
   <Folder Name="/Services/Basket/">
     <Project Path="Services/Basket/Basket.API/Basket.API.csproj" Id="bcdaeb3e-03fa-4fba-9f7b-bd2f835da931" />

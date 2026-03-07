@@ -22,7 +22,7 @@ namespace Ordering.Infrastructure.Data
                 new() {
                     UserName = "ginesh",
                     FirstName = "Ginesh",
-                    LastName = "Sahay",
+                    LastName = "Tandel",
                     Email = "ginesh29@gmail.com",
                     AddressLine = "Bilimora",
                     State = "GJ",

@@ -19,5 +19,6 @@ namespace Ordering.Application.Orders.CreateOrder
         public string? Expiration { get; init; }
         public string? Cvv { get; init; }
         public int? PaymentMethod { get; init; }
+        public Guid CorrelationId { get; set; }
     }
 }

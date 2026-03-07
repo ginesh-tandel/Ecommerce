@@ -1,6 +1,6 @@
-﻿namespace Basket.Core.Entities
+﻿namespace EventBus.Messages.Events
 {
-    public class BasketCheckout
+    public class BasketCheckoutEvent : BaseIntegrationEvent
     {
         public string UserName { get; set; }
         public decimal TotalPrice { get; set; }
@@ -15,6 +15,6 @@
         public string CardNumber { get; set; }
         public string Expiration { get; set; }
         public string Cvv { get; set; }
-        public string PaymentMethod { get; set; }
+        public int PaymentMethod { get; set; }
     }
 }
